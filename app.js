@@ -2,6 +2,9 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 
+const db = require('./db/server')
+db.connect()
+
 app.use(cors({
   origin: 'http://localhost:4000'
 }))
@@ -13,6 +16,8 @@ app.get('/', (req, res) => {
     message: 'Welcome to Rest Api'
   })
 })
+
+app.use('/api', require('./routes/api'))
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
