@@ -46,13 +46,28 @@ function App() {
     }
   }
 
+  const addTodo = async (action) => {
+    setLoading(true)
+    try {
+      const res = await axios.post('/api/todos/', { action })
+      if (res.data) {
+        console.log(res.data);
+        setTodos([...todos, res.data])
+        setLoading(false)
+      }
+    } catch (err) {
+      console.log(err)
+      setLoading(false)
+    }
+  }
+
   return (
     <div>
       <div className="my-12 mx-3 sm:mx-auto sm:max-w-xl md:max-w-2xl space-y-6">
         <h1 className="text-white text-center text-6xl">
           Todo List
         </h1>
-        <Input />
+        <Input addTodo={addTodo} />
         {!loading ? <ListTodo todos={todos} onDeleteTodo={deleteTodo} /> : <Loading />}
       </div>
     </div>
