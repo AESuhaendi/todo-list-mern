@@ -1,34 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import Input from './components/Input';
 import ListTodo from './components/ListTodo';
+import Loading from './components/Loading';
 
 function App() {
-  const todos = [
-    {
-      _id: 1,
-      action: "Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 "
-    },
-    {
-      _id: 2,
-      action: "Task 2"
-    },
-    {
-      _id: 3,
-      action: "Task 3"
-    },
-    {
-      _id: 4,
-      action: "Task 4"
-    },
-    {
-      _id: 5,
-      action: "Task 5"
-    },
-    {
-      _id: 6,
-      action: "Task 6"
+  const [todos, setTodos] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getTodos()
+  }, [])
+
+  const getTodos = async () => {
+    setLoading(true)
+    try {
+      const res = await axios.get('/api/todos')
+      if (res.data) {
+        console.log(res.data);
+        setTodos(res.data)
+        setLoading(false)
+      }
+    } catch (err) {
+      console.log(err)
+      setLoading(false)
     }
-  ]
+  }
 
   return (
     <div>
@@ -37,7 +34,7 @@ function App() {
           Todo List
         </h1>
         <Input />
-        <ListTodo todos={todos} />
+        {!loading ? <ListTodo todos={todos} /> : <Loading />}
       </div>
     </div>
   );

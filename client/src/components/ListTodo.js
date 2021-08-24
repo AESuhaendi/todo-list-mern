@@ -21,7 +21,7 @@ const ListTodo = ({ todos }) => {
               </button>
             </li>
           ))
-        ) : (<li className="text-white text-opacity-90">No Todo(s) left</li>)
+        ) : (<li className="text-white text-opacity-90 text-center">No Todo(s) left</li>)
       }
     </ul>
   )
