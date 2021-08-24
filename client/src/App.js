@@ -9,6 +9,10 @@ function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    console.log("Todos: ", todos);
+  }, [todos])
+
+  useEffect(() => {
     getTodos()
   }, [])
 
@@ -27,6 +31,21 @@ function App() {
     }
   }
 
+  const deleteTodo = async (id) => {
+    setLoading(true)
+    try {
+      const res = await axios.delete('/api/todos/' + id)
+      if (res.data) {
+        console.log(res.data);
+        setTodos(todos.slice().filter(todo => todo._id !== res.data._id))
+        setLoading(false)
+      }
+    } catch (err) {
+      console.log(err)
+      setLoading(false)
+    }
+  }
+
   return (
     <div>
       <div className="my-12 mx-3 sm:mx-auto sm:max-w-xl md:max-w-2xl space-y-6">
@@ -34,7 +53,7 @@ function App() {
           Todo List
         </h1>
         <Input />
-        {!loading ? <ListTodo todos={todos} /> : <Loading />}
+        {!loading ? <ListTodo todos={todos} onDeleteTodo={deleteTodo} /> : <Loading />}
       </div>
     </div>
   );

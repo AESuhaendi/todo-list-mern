@@ -1,6 +1,12 @@
 import React from 'react'
 
-const ListTodo = ({ todos }) => {
+const ListTodo = ({ todos, onDeleteTodo }) => {
+
+  const handleDeleteTodo = (id, e) => {
+    e.target.disabled = true
+    onDeleteTodo(id)
+  }
+
   return (
     <ul className="bg-yellow-300 p-4 rounded space-y-3">
       {todos && todos.length > 0
@@ -14,6 +20,7 @@ const ListTodo = ({ todos }) => {
                 {todo.action}
               </span>
               <button
+                onClick={(e) => handleDeleteTodo(todo._id, e)}
                 title="Delete task"
                 className="bg-red-600 hover:bg-red-500 active:bg-red-700 text-xs px-2 py-1 rounded-md transition-colors"
               >
