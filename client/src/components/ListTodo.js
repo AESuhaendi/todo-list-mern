@@ -16,7 +16,7 @@ const ListTodo = ({ todos, onDeleteTodo }) => {
               key={todo._id}
               className="flex items-start p-4 text-white bg-yellow-500 rounded-lg shadow"
             >
-              <span className="flex-1">
+              <span className="flex-1 break-all select-none mr-1">
                 {todo.action}
               </span>
               <button
